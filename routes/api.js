@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require( 'mongoose' );
 var Post = mongoose.model('Post');
+var User = mongoose.model('User');
+var _ = require('lodash')
+
 
 function isAuthenticated (req, res, next) {
 
@@ -12,11 +15,11 @@ function isAuthenticated (req, res, next) {
     return next();
   }
   return res.redirect('/#login');
-};
+}
 
 //Register the authentication middleware
 router.use('/posts', isAuthenticated);
-
+// router.use('/users', isAuthenticated);
 router.route('/posts')
   //creates a new post
   .post(function(req, res){
@@ -55,7 +58,6 @@ router.route('/posts/:id')
     Post.findById(req.params.id, function(err, post){
       if(err)
         res.send(err);
-
       post.created_by = req.body.created_by;
       post.text = req.body.text;
 
@@ -76,5 +78,61 @@ router.route('/posts/:id')
       res.json("deleted :(");
     });
   });
+
+router.route('/users')
+  .get(function (req, res) {
+    User.find(function(err, users) {
+      if (err) {
+        res.send(500,err);
+      }
+      return res.send(200,users);
+    });
+  });
+  router.route('/users/me')
+    .get(function (req, res){
+      console.log(req);
+      res.send(req.user || null);
+    });
+  //   .put(function (req, res) {
+  //     User.findById(req.params.id, function(err, user) {
+  //       if (err) {
+  //         return res.send(err)
+  //       }
+  //       console.log(user.username)
+  //       // user.username = req.body.username
+
+  //       user.save(function(err, post){
+  //         if(err)
+  //           res.send(err)
+  //         return res.json(user);
+  //       })
+  //     })
+  //   })
+    // .put(function (req, res) {
+    //   var user = req.user;
+    //   console.log('req----->',req.user);
+    //   if (user) {
+    //     user = _.extend(user, req.body);
+    //     user.updated = Date.now();
+
+    //     user.save(function(err){
+    //       if (err) {
+    //         res.status(400).send({
+    //           message: 'Oops, an error occured, please try again'
+    //         });
+    //       } else {
+    //         req.login(user, function(err) {
+    //           if (err) {
+    //             res.status(400).send(err);
+    //           } else {
+    //             res.json(user)
+    //           }
+    //         })
+    //       }
+    //     })
+    //   } else {
+    //     res.status(500).send({message: 'User is not signed in'});
+    //   }
+    // })
 
 module.exports = router;
