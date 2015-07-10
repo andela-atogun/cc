@@ -92,47 +92,21 @@ router.route('/users')
     .get(function (req, res){
       console.log(req);
       res.send(req.user || null);
-    });
-  //   .put(function (req, res) {
-  //     User.findById(req.params.id, function(err, user) {
-  //       if (err) {
-  //         return res.send(err)
-  //       }
-  //       console.log(user.username)
-  //       // user.username = req.body.username
+    })
+    .put(function (req, res) {
+      User.findById(req.user._id, function(err, user) {
+        if (err) {
+          return res.send(err)
+        }
+        console.log(user.username)
+        user.username = req.body.username;
 
-  //       user.save(function(err, post){
-  //         if(err)
-  //           res.send(err)
-  //         return res.json(user);
-  //       })
-  //     })
-  //   })
-    // .put(function (req, res) {
-    //   var user = req.user;
-    //   console.log('req----->',req.user);
-    //   if (user) {
-    //     user = _.extend(user, req.body);
-    //     user.updated = Date.now();
-
-    //     user.save(function(err){
-    //       if (err) {
-    //         res.status(400).send({
-    //           message: 'Oops, an error occured, please try again'
-    //         });
-    //       } else {
-    //         req.login(user, function(err) {
-    //           if (err) {
-    //             res.status(400).send(err);
-    //           } else {
-    //             res.json(user)
-    //           }
-    //         })
-    //       }
-    //     })
-    //   } else {
-    //     res.status(500).send({message: 'User is not signed in'});
-    //   }
-    // })
+        user.save(function(err, post){
+          if(err)
+            res.send(err)
+          return res.json(user);
+        })
+      })
+    })
 
 module.exports = router;
