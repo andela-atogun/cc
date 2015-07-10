@@ -30,4 +30,5 @@ app.controller('mainController', ['$scope', '$timeout', '$q', function($scope, $
       created_at: ''
     };
   };
+
 }]);
