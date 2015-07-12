@@ -4,10 +4,19 @@ var app = angular.module('CreativeCoApp', [
   'ui.router'
 ])
 .config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/profile');
   $stateProvider
-    .state('UserProfile', {
-      url: '/',
-      templateUrl: 'partials/'
+    .state('timeline', {
+      url: '/timeline',
+      templateUrl: '../views/partials/timeline.html'
+    })
+    .state('profile', {
+      url: '/profile',
+      templateUrl: '../views/partials/profile.html'
+    })
+    .state('updates', {
+      url: '/updates',
+      templateUrl: '../views/partials/updates.html'
     });
 })
 .directive('topbar', function() {

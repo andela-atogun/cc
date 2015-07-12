@@ -1,6 +1,7 @@
 'use strict';
 
 app.controller('mainController', ['$scope', '$timeout', '$q', function($scope, $timeout, $q){
+  $scope.alert='';
   $scope.name = "CreativeCoApp";
   $scope.location = {name: 'Lagos'};
   $scope.jobTag = {name: 'Photographer'};
@@ -29,6 +30,21 @@ app.controller('mainController', ['$scope', '$timeout', '$q', function($scope, $
       text: '',
       created_at: ''
     };
+  };
+
+  $scope.showAlert = function(ev) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    // Modal dialogs should fully cover application
+    // to prevent interaction outside of dialog
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.body))
+        .title('Drat!!!')
+        .content('We are sorry, this feature is not available right now.')
+        .ariaLabel('Alert Dialog Demo')
+        .ok('Check back Later!')
+        .targetEvent(ev)
+    );
   };
 
 }]);
